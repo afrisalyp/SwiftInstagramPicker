@@ -73,6 +73,15 @@ public class ImageFetcher {
                         if let imagesData = mediaData["images"] as? [String: AnyObject], let mediaUrl = imagesData["standard_resolution"]?["url"] as? String {
                             media.url = mediaUrl
                         }
+                        if let imagesData = mediaData["images"] as? [String: AnyObject], let mediaWidth = imagesData["standard_resolution"]?["width"] as? Int {
+                            media.width = mediaWidth
+                        }
+                        if let imagesData = mediaData["images"] as? [String: AnyObject], let mediaHeight = imagesData["standard_resolution"]?["height"] as? Int {
+                            media.height = mediaHeight
+                        }
+                        if let imagesData = mediaData["images"] as? [String: AnyObject], let mediaUrl = imagesData["thumbnail"]?["url"] as? String {
+                            media.thumbnailUrl = mediaUrl
+                        }
                         medias.append(media)
                     }
                 }
@@ -82,5 +91,11 @@ public class ImageFetcher {
         catch {
             return nil
         }
+    }
+    
+    func getDataFromUrl(url: NSURL, completion: ((data: NSData?, response: NSURLResponse?, error: NSError? ) -> Void)) {
+        NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
+            completion(data: data, response: response, error: error)
+            }.resume()
     }
 }

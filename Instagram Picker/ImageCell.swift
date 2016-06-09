@@ -38,7 +38,7 @@ class ImageCell: UICollectionViewCell {
     }
     
     func configureWithModel(model: IGMedia) {
-        let image = UIImage(data: NSData(contentsOfURL: NSURL(string: model.url!)!)!)
+        let image = UIImage(data: NSData(contentsOfURL: NSURL(string: model.thumbnailUrl!)!)!)
         self.imageView.image = image
     }
 }

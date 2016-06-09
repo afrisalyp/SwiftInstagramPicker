@@ -724,6 +724,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Instagram Picker/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.niltavalabs.Instagram-Picker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -742,6 +743,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Instagram Picker/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.niltavalabs.Instagram-Picker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -836,6 +838,7 @@
 				B3EF63B71D0696F900526D71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3EF63B81D0696F900526D71 /* Build configuration list for PBXNativeTarget "InstagramPickerTests" */ = {
 			isa = XCConfigurationList;
@@ -844,6 +847,7 @@
 				B3EF63BA1D0696F900526D71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3EF63DB1D06979300526D71 /* Build configuration list for PBXNativeTarget "InstagramPickerDemo" */ = {
 			isa = XCConfigurationList;
@@ -852,6 +856,7 @@
 				B3EF63DD1D06979300526D71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B3EF63DE1D06979300526D71 /* Build configuration list for PBXNativeTarget "InstagramPickerDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -860,6 +865,7 @@
 				B3EF63E01D06979300526D71 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

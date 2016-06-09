@@ -26,6 +26,8 @@ public class PhotoLibraryViewController: UIViewController {
     var redirectUrl: String!
     var redirectUrlScheme: String!
     
+    let authorizeURL = "https://api.instagram.com/oauth/authorize"
+    
     required public init(clientId: String, clientSecret: String, redirectUrl: String, redirectUrlScheme: String){
         self.clientId = clientId
         self.clientSecret = clientSecret
@@ -57,16 +59,22 @@ public class PhotoLibraryViewController: UIViewController {
         
         setNeedsStatusBarAppearanceUpdate()
 
-        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(dismiss))
-        
+        self.navigationController?.navigationBar.barStyle = .Default
+
+        navigationItem.title = "Instagram"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(dismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(logout))
+
         view.addSubview(collectionView)
         
+        requestOauthAuthorize()
+    }
+    
+    func requestOauthAuthorize() {
         let oauthswift = OAuth2Swift(
             consumerKey:    clientId,
             consumerSecret: clientSecret,
-            authorizeUrl:   "https://api.instagram.com/oauth/authorize",
+            authorizeUrl:   authorizeURL,
             responseType:   "token"
         )
         oauthswift.authorize_url_handler = get_url_handler()
@@ -125,8 +133,7 @@ public class PhotoLibraryViewController: UIViewController {
     
     public func present(inViewController: UIViewController, animated: Bool) {
         let navigationController = UINavigationController(rootViewController: self)
-        navigationController.navigationBar.barTintColor = UIColor.blackColor()
-        navigationController.navigationBar.barStyle = UIBarStyle.Black
+        navigationController.navigationBar.barStyle = UIBarStyle.Default
         inViewController.presentViewController(navigationController, animated: animated, completion: nil)
     }
     
@@ -134,7 +141,16 @@ public class PhotoLibraryViewController: UIViewController {
         onSelectionComplete?(media: nil)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
+    public func logout() {
+        let cookieJar = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in cookieJar.cookies! {
+            cookieJar.deleteCookie(cookie)
+        }
+        requestOauthAuthorize()
+    }
+
     private func onSuccess(medias: [IGMedia]) {
         assets = medias
         configureCollectionView()
@@ -181,7 +197,14 @@ extension PhotoLibraryViewController : UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate -
 extension PhotoLibraryViewController : UICollectionViewDelegateFlowLayout {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        onSelectionComplete?(media: itemAtIndexPath(indexPath))
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let media = itemAtIndexPath(indexPath)
+        ImageFetcher().getDataFromUrl(NSURL(string: media!.url!)!) {
+            data, response, error in
+            media?.imageData = data
+            dispatch_async(dispatch_get_main_queue(), {
+                self.dismissViewControllerAnimated(true, completion: nil)
+                self.onSelectionComplete?(media: media)
+            })
+        }
     }
 }

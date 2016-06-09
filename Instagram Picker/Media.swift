@@ -9,5 +9,9 @@
 import Foundation
 public class IGMedia {
     public var url: String?
+    public var thumbnailUrl: String?
     public var id: String?
+    public var imageData: NSData?
+    public var width: Int?
+    public var height: Int?
 }
