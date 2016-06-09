@@ -12,7 +12,7 @@ SwiftInstagramPicker is packaged as a Swift framework. Currently this is the sim
 ## How to
 ### Setting URL Schemes
 <p align="center">
-  <img src="Assets/OAuthSwift-icon.png?raw=true" alt="OAuthSwift"/>
+  <img src="https://raw.githubusercontent.com/OAuthSwift/OAuthSwift/master/Assets/URLSchemes.png" alt="OAuthSwift"/>
 </p>
 Replace oauth-swift by your redirect url scheme
 
