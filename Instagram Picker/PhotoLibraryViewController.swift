@@ -78,7 +78,7 @@ public class PhotoLibraryViewController: UIViewController {
             responseType:   "token"
         )
         oauthswift.authorize_url_handler = get_url_handler()
-        oauthswift.authorizeWithCallbackURL( NSURL(string: redirectUrl)!, scope: "basic", state: "INSTAGRAM", success: {
+        oauthswift.authorizeWithCallbackURL( NSURL(string: redirectUrl)!, scope: "basic", state: "279jxsl73hyh803fha82", success: {
             credential, response, parameters in
             ImageFetcher()
                 .onFailure(self.onFailure)
@@ -93,6 +93,7 @@ public class PhotoLibraryViewController: UIViewController {
     func createWebViewController() -> WebViewController {
         let controller = WebViewController()
         controller.scheme = redirectUrlScheme
+        controller.redirectUrl = redirectUrl
         #if os(OSX)
             controller.view = NSView(frame: NSRect(x:0, y:0, width: 450, height: 500)) // needed if no nib or not loaded from storyboard
             controller.viewDidLoad()

@@ -23,6 +23,7 @@ class WebViewController: OAuthWebViewController {
     let webView : WebView = WebView()
     
     var scheme: String!
+    var redirectUrl: String!
 
     let myProgressView: UIProgressView = UIProgressView(progressViewStyle: .Bar)
     var theBool: Bool = false
@@ -74,6 +75,7 @@ class WebViewController: OAuthWebViewController {
     }
 
     func loadAddressURL() {
+        print("target url oauth2 = \(targetURL.absoluteString)")
         let req = NSURLRequest(URL: targetURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData,
                                timeoutInterval: 10.0)
         self.webView.loadRequest(req)
@@ -110,8 +112,9 @@ class WebViewController: OAuthWebViewController {
 #if os(iOS)
     extension WebViewController: UIWebViewDelegate {
         func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-            if let url = request.URL where (url.scheme == scheme){
+            if let url = request.URL where (url.absoluteString.hasPrefix(redirectUrl)){
                 self.dismissWebViewController()
+                OAuthSwift.handleOpenURL(url)
             }
             return true
         }
@@ -130,7 +133,7 @@ class WebViewController: OAuthWebViewController {
         func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
 
             // here we handle internally the callback url and call method that call handleOpenURL (not app scheme used)
-            if let url = navigationAction.request.URL where url.scheme == scheme {
+            if let url = navigationAction.request.URL where url.absoluteString.hasPrefix(redirectUrl) {
                 AppDelegate.sharedInstance.applicationHandleOpenURL(url)
                 decisionHandler(.Cancel)
                 
